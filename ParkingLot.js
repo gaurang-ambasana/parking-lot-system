@@ -36,7 +36,7 @@ class ParkingLot {
       const availableSlots = this.parkingSlots
         .filter((slot) => slot === null)
         .map((_, index) => index + 1)
-        .join(" ,");
+        .join(", ");
 
       console.log(`Available Slots for parking are ${availableSlots}`);
     } else console.log("Parking is Full :(");
@@ -47,7 +47,7 @@ class ParkingLot {
       const occupiedSlots = this.parkingSlots
         .filter((slot) => slot !== null)
         .map((_, index) => index + 1)
-        .join(" ,");
+        .join(", ");
 
       console.log(`Occupied Slots for parking are ${availableSlots}`);
     } else console.log("Parking is Empty :)");
@@ -74,8 +74,24 @@ class ParkingLot {
       if (carColor && carNumber) {
         const car = new Car(carNumber, carColor);
         this.parkingSlots[slotNo] = car;
-      }
+        console.log(
+          `Parked Car with Number "${carNumber}" with ${carColor} color at Slot no. ${slotNo}`
+        );
+      } else console.log("Please provide valid car number or color");
     } else console.log("Sorry! Parking is Full");
+  }
+
+  parkCarAtGivenSlot(slotNo, carNumber, carColor) {
+    if (this.parkingSlots[slotNo] === null) {
+      if (carColor && carNumber) {
+        const car = new Car(carNumber, carColor);
+        this.parkingSlots[slotNo] = car;
+        console.log(
+          `Parked Car with Number "${carNumber}" with ${carColor} color at Slot no. ${slotNo}`
+        );
+      } else console.log("Please provide valid car number or color");
+    } else
+      console.log(`There is already a car parked at Parking Slot ${slotNo}`);
   }
 
   getAllParkedCars() {
@@ -98,4 +114,20 @@ class ParkingLot {
       } else console.log(`Can't find a car with ${color} as there isn't one`);
     } else console.log("Parking is Empty!");
   }
+
+  getSlotByCarNumber(number) {
+    if (!this.isEmpty()) {
+      const slotNumber = this.parkingSlots.indexOf(
+        this.getAllParkedCars().find(
+          ({ carNumber }) => carNumber.toLowerCase() === number.toLowerCase()
+        )
+      );
+
+      if (slotNumber !== -1)
+        console.log(`Car with Number ${number} is parked at ${slotNumber}`);
+      else console.log(`Couldn't find any Car with Number ${number}`);
+    } else console.log("Parking is Empty!");
+  }
 }
+
+exports.ParkingLot = ParkingLot;
