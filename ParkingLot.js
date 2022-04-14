@@ -22,7 +22,7 @@ class ParkingLot {
             })
           : parkingStatus.push({
               Slot: index + 1,
-              CarNumber: "-",
+              "Car Number": "-",
               "Car Color": "-",
             });
       });
@@ -76,5 +76,26 @@ class ParkingLot {
         this.parkingSlots[slotNo] = car;
       }
     } else console.log("Sorry! Parking is Full");
+  }
+
+  getAllParkedCars() {
+    return this.parkingSlots
+      .filter((slot) => slot !== null)
+      .map(({ number: carNumber, color: carColor }) => {
+        return { carNumber, carColor };
+      });
+  }
+
+  getAllCarsWithSameColor(color) {
+    if (!this.isEmpty()) {
+      const carsWithProvidedColor = this.getAllParkedCars().filter(
+        ({ carColor }) => carColor.toLowerCase() === color.toLowerCase()
+      );
+
+      if (carsWithProvidedColor.length > 0) {
+        console.log(`Cars with color ${color}`);
+        displayIntable(carsWithProvidedColor);
+      } else console.log(`Can't find a car with ${color} as there isn't one`);
+    } else console.log("Parking is Empty!");
   }
 }
