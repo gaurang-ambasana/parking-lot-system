@@ -12,4 +12,5 @@ parkingLot.takeCarBySlotNumber(1);
 parkingLot.getAllOccupiedSlots();
 parkingLot.parkCar("GJ 07 TA 0432", "Dark");
 parkingLot.getAllEmptySlots();
+parkingLot.getAllOccupiedSlots();
 parkingLot.getParkingStatus();
