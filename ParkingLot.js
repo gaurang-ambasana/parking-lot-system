@@ -1,3 +1,4 @@
+const { Car } = require("./Car");
 const { displayIntable } = require("./displayIntable");
 
 class ParkingLot {
@@ -64,5 +65,16 @@ class ParkingLot {
 
   isEmpty() {
     return this.parkingSlots.every((slot) => slot === null);
+  }
+
+  parkCar(carNumber, carColor) {
+    if (!this.isFull()) {
+      const slotNo = this.findNearestParkingSlot();
+
+      if (carColor && carNumber) {
+        const car = new Car(carNumber, carColor);
+        this.parkingSlots[slotNo] = car;
+      }
+    } else console.log("Sorry! Parking is Full");
   }
 }
