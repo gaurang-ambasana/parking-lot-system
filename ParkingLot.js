@@ -168,7 +168,7 @@ class ParkingLot {
     if (car !== null) {
       this.#emptySlots.push(slotNum);
       this.#occupiedSlots = this.#occupiedSlots.filter(
-        (slot) => slot === slotNum
+        (slot) => slot !== slotNum
       );
       const carNumber = car.number;
       console.log(
