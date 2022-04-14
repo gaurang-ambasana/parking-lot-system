@@ -30,4 +30,13 @@ class ParkingLot {
       displayIntable(parkingStatus);
     }
   }
+
+  findAllEmptySlots() {
+    const availableSlots = this.parkingSlots
+      .filter((slot) => slot !== null)
+      .map((_, index) => index + 1)
+      .join(" ,");
+
+    console.log(`Available Slots for parking are ${availableSlots}`);
+  }
 }
