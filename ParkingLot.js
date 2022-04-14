@@ -10,8 +10,7 @@ class ParkingLot {
   getParkingStatus() {
     const parkingStatus = [];
 
-    if (this.parkingSlots.every((slot) => slot === null))
-      console.log("Parking is Empty!");
+    if (this.isEmpty()) console.log("Parking is Empty!");
     else {
       this.parkingSlots.forEach((car, index) => {
         car !== null
@@ -32,7 +31,7 @@ class ParkingLot {
   }
 
   findAllEmptySlots() {
-    if (this.parkingSlots.some((slot) => slot === null)) {
+    if (!this.isFull()) {
       const availableSlots = this.parkingSlots
         .filter((slot) => slot === null)
         .map((_, index) => index + 1)
@@ -43,7 +42,7 @@ class ParkingLot {
   }
 
   getAllOccupiedSlots() {
-    if (this.parkingSlots.some((slot) => slot !== null)) {
+    if (!this.isEmpty()) {
       const occupiedSlots = this.parkingSlots
         .filter((slot) => slot !== null)
         .map((_, index) => index + 1)
@@ -51,5 +50,19 @@ class ParkingLot {
 
       console.log(`Occupied Slots for parking are ${availableSlots}`);
     } else console.log("Parking is Empty :)");
+  }
+
+  findNearestParkingSlot() {
+    return this.parkingSlots.indexOf(
+      this.parkingSlots.find((slot) => slot === null)
+    );
+  }
+
+  isFull() {
+    return this.parkingSlots.every((slot) => slot !== null);
+  }
+
+  isEmpty() {
+    return this.parkingSlots.every((slot) => slot === null);
   }
 }
