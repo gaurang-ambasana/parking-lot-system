@@ -32,11 +32,13 @@ class ParkingLot {
   }
 
   findAllEmptySlots() {
-    const availableSlots = this.parkingSlots
-      .filter((slot) => slot !== null)
-      .map((_, index) => index + 1)
-      .join(" ,");
+    if (this.parkingSlots.some((slot) => slot === null)) {
+      const availableSlots = this.parkingSlots
+        .filter((slot) => slot === null)
+        .map((_, index) => index + 1)
+        .join(" ,");
 
-    console.log(`Available Slots for parking are ${availableSlots}`);
+      console.log(`Available Slots for parking are ${availableSlots}`);
+    } else console.log("Parking is Full :(");
   }
 }
