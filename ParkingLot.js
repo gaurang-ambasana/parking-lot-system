@@ -2,18 +2,25 @@ const { Car } = require("./Car");
 const { displayIntable } = require("./displayIntable");
 
 class ParkingLot {
+  #maxSlots;
+  #parkingSlots;
+  #occupiedSlots;
+  #emptySlots;
+
   constructor(slots) {
     if (slots <= 0) throw new Error(`Not possible :(`);
-    this.maxSlots = slots;
-    this.parkingSlots = new Array(slots).fill(null);
+    this.#maxSlots = slots;
+    this.#parkingSlots = new Array(slots).fill(null);
+    this.#occupiedSlots = [];
+    this.#emptySlots = [...this.#parkingSlots.keys()].map((i) => i + 1);
   }
 
   getParkingStatus() {
     const parkingStatus = [];
 
-    if (this.isEmpty()) console.log("Parking is Empty!");
+    if (this.#isEmpty()) console.log("Parking is Empty!");
     else {
-      this.parkingSlots.forEach((car, index) => {
+      this.#parkingSlots.forEach((car, index) => {
         car !== null
           ? parkingStatus.push({
               Slot: index + 1,
@@ -31,49 +38,49 @@ class ParkingLot {
     }
   }
 
-  findAllEmptySlots() {
-    if (!this.isFull()) {
-      const availableSlots = this.parkingSlots
-        .filter((slot) => slot === null)
-        .map((_, index) => index + 1)
-        .join(", ");
-
-      console.log(`Available Slots for parking are ${availableSlots}`);
-    } else console.log("Parking is Full :(");
+  getAllEmptySlots() {
+    if (!this.#isFull())
+      console.log(
+        `Available Slots for parking are ${this.#emptySlots
+          .sort((a, b) => a - b)
+          .join(", ")}`
+      );
+    else console.log("Parking is Full :(");
   }
 
   getAllOccupiedSlots() {
-    if (!this.isEmpty()) {
-      const occupiedSlots = this.parkingSlots
-        .filter((slot) => slot !== null)
-        .map((_, index) => index + 1)
-        .join(", ");
-
-      console.log(`Occupied Slots for parking are ${availableSlots}`);
+    if (!this.#isEmpty()) {
+      console.log(
+        `Occupied parking slots are ${this.#occupiedSlots
+          .sort((a, b) => a - b)
+          .join(", ")}`
+      );
     } else console.log("Parking is Empty :)");
   }
 
-  findNearestParkingSlot() {
-    return this.parkingSlots.indexOf(
-      this.parkingSlots.find((slot) => slot === null)
-    );
+  #findNearestParkingSlot() {
+    return Math.min(...this.#emptySlots);
   }
 
-  isFull() {
-    return this.parkingSlots.every((slot) => slot !== null);
+  #isFull() {
+    return this.#occupiedSlots.length === this.#maxSlots;
   }
 
-  isEmpty() {
-    return this.parkingSlots.every((slot) => slot === null);
+  #isEmpty() {
+    return this.#emptySlots.length === this.#maxSlots;
   }
 
   parkCar(carNumber, carColor) {
-    if (!this.isFull()) {
-      const slotNo = this.findNearestParkingSlot();
-
+    if (!this.#isFull()) {
+      const slotNo = this.#findNearestParkingSlot();
       if (carColor && carNumber) {
         const car = new Car(carNumber, carColor);
-        this.parkingSlots[slotNo] = car;
+        this.#parkingSlots[slotNo - 1] = car;
+        this.#occupiedSlots.push(slotNo);
+        this.#emptySlots = this.#emptySlots.filter(
+          (slotNum) => slotNum !== slotNo
+        );
+
         console.log(
           `Parked Car with Number "${carNumber}" with ${carColor} color at Slot no. ${slotNo}`
         );
@@ -82,10 +89,20 @@ class ParkingLot {
   }
 
   parkCarAtGivenSlot(slotNo, carNumber, carColor) {
-    if (this.parkingSlots[slotNo] === null) {
+    if (slotNo > this.#maxSlots) {
+      console.log("Please provide valid slot number");
+      return;
+    }
+
+    if (this.#parkingSlots[slotNo - 1] === null) {
       if (carColor && carNumber) {
         const car = new Car(carNumber, carColor);
-        this.parkingSlots[slotNo] = car;
+        this.#parkingSlots[slotNo - 1] = car;
+        this.#occupiedSlots.push(slotNo);
+        this.#emptySlots = this.#emptySlots.filter(
+          (slotNum) => slotNum !== slotNo
+        );
+
         console.log(
           `Parked Car with Number "${carNumber}" with ${carColor} color at Slot no. ${slotNo}`
         );
@@ -94,19 +111,15 @@ class ParkingLot {
       console.log(`There is already a car parked at Parking Slot ${slotNo}`);
   }
 
-  getAllParkedCars() {
-    return this.parkingSlots
-      .filter((slot) => slot !== null)
-      .map(({ number: carNumber, color: carColor }) => {
-        return { carNumber, carColor };
-      });
-  }
-
   getAllCarsWithSameColor(color) {
-    if (!this.isEmpty()) {
-      const carsWithProvidedColor = this.getAllParkedCars().filter(
-        ({ carColor }) => carColor.toLowerCase() === color.toLowerCase()
-      );
+    if (!this.#isEmpty()) {
+      const carsWithProvidedColor = this.#occupiedSlots
+        .filter(
+          (slot) =>
+            this.#parkingSlots[slot - 1].color.toLowerCase() ===
+            color.toLowerCase()
+        )
+        .map((slot) => this.#parkingSlots[slot - 1]);
 
       if (carsWithProvidedColor.length > 0) {
         console.log(`Cars with color ${color}`);
@@ -116,14 +129,14 @@ class ParkingLot {
   }
 
   getSlotByCarNumber(number) {
-    if (!this.isEmpty()) {
-      const slotNumber = this.parkingSlots.indexOf(
-        this.getAllParkedCars().find(
-          ({ carNumber }) => carNumber.toLowerCase() === number.toLowerCase()
-        )
+    if (!this.#isEmpty()) {
+      const slotNumber = this.#occupiedSlots.find(
+        (slot) =>
+          this.#parkingSlots[slot - 1].number.toLowerCase() ===
+          number.toLowerCase()
       );
 
-      if (slotNumber !== -1)
+      if (slotNumber)
         console.log(`Car with Number ${number} is parked at ${slotNumber}`);
       else console.log(`Couldn't find any Car with Number ${number}`);
     } else console.log("Parking is Empty!");
