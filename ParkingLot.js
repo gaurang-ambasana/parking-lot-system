@@ -119,7 +119,10 @@ class ParkingLot {
             this.#parkingSlots[slot - 1].color.toLowerCase() ===
             color.toLowerCase()
         )
-        .map((slot) => this.#parkingSlots[slot - 1]);
+        .map((slot) => {
+          const car = this.#parkingSlots[slot - 1];
+          return { Slot: this.getSlotByCarNumber(car.number), ...car };
+        });
 
       if (carsWithProvidedColor.length > 0) {
         console.log(`Cars with color ${color}`);
@@ -136,9 +139,10 @@ class ParkingLot {
           number.toLowerCase()
       );
 
-      if (slotNumber)
+      if (slotNumber) {
         console.log(`Car with Number ${number} is parked at ${slotNumber}`);
-      else console.log(`Couldn't find any Car with Number ${number}`);
+        return slotNumber;
+      } else console.log(`Couldn't find any Car with Number ${number}`);
     } else console.log("Parking is Empty!");
   }
 
