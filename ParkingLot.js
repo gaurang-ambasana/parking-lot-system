@@ -141,6 +141,41 @@ class ParkingLot {
       else console.log(`Couldn't find any Car with Number ${number}`);
     } else console.log("Parking is Empty!");
   }
+
+  takeCarByNumber(number) {
+    if (!this.#isEmpty()) {
+      const carPosition = this.#occupiedSlots.find(
+        (slot) =>
+          this.#parkingSlots[slot - 1].number.toLowerCase() ===
+          number.toLowerCase()
+      );
+
+      if (carPosition) {
+        this.#emptySlots.push(carPosition);
+        this.#occupiedSlots = this.#occupiedSlots.filter(
+          (slot) => slot !== carPosition
+        );
+        this.#parkingSlots[carPosition - 1] = null;
+        console.log(
+          `Slot ${carPosition} is empty as Car with No. ${number} has been taken.`
+        );
+      } else console.log(`Couldn't find any car with No. ${number}`);
+    } else console.log(`Parking is Empty!`);
+  }
+
+  takeCarBySlotNumber(slotNum) {
+    const car = this.#parkingSlots[slotNum - 1];
+    if (car !== null) {
+      this.#emptySlots.push(slotNum);
+      this.#occupiedSlots = this.#occupiedSlots.filter(
+        (slot) => slot === slotNum
+      );
+      const carNumber = car.number;
+      console.log(
+        `Slot ${slotNum} is empty as Car with No. ${carNumber} has been taken.`
+      );
+    } else console.log(`Parking Spot no. ${slotNum} is empty!`);
+  }
 }
 
 exports.ParkingLot = ParkingLot;
