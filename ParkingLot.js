@@ -166,11 +166,12 @@ class ParkingLot {
   takeCarBySlotNumber(slotNum) {
     const car = this.#parkingSlots[slotNum - 1];
     if (car !== null) {
+      const carNumber = car.number;
       this.#emptySlots.push(slotNum);
       this.#occupiedSlots = this.#occupiedSlots.filter(
         (slot) => slot !== slotNum
       );
-      const carNumber = car.number;
+      this.#parkingSlots[slotNum - 1] = null;
       console.log(
         `Slot ${slotNum} is empty as Car with No. ${carNumber} has been taken.`
       );
