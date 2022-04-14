@@ -41,4 +41,15 @@ class ParkingLot {
       console.log(`Available Slots for parking are ${availableSlots}`);
     } else console.log("Parking is Full :(");
   }
+
+  getAllOccupiedSlots() {
+    if (this.parkingSlots.some((slot) => slot !== null)) {
+      const occupiedSlots = this.parkingSlots
+        .filter((slot) => slot !== null)
+        .map((_, index) => index + 1)
+        .join(" ,");
+
+      console.log(`Occupied Slots for parking are ${availableSlots}`);
+    } else console.log("Parking is Empty :)");
+  }
 }
