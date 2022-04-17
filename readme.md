@@ -3,12 +3,16 @@ Object Car has 2 properties :
 
 1. Number (Registration Number of Car)
 2. Color (Color of Car)
+
    Object ParkingLot has 4 properties :
+
 3. Max Slots - Number of parking slots a parking lot is made up of.
 4. Parking Slots - Array which has details of every parking slot.
 5. Empty Slots - Array with Number of slots which isn't occupied.
 6. Occupied Slots - Array with Number of slots which are occupied.
+
    Public Methods for ParkingLot :
+
 7. getParkingStatus : it is to display the parking status of the entire parking slot in tabular
    format.so we just iterate through the Array parkingSlots and check if Car object is available at
    position or not, if Car is available we can get the Number and Color properties of the car and
@@ -44,7 +48,9 @@ Object Car has 2 properties :
 15. takeCarBySlotNumber : in this method similarly like above method "takeCarByNumber" we'll
     check whether a car is present at a given slot or not and again it includes updating emptySlots
     and occupiedSlots arrays.
+
     Private Methods for ParkingLot :
+
 16. isFull : we'll compare the length of occupiedSlots and maxSlots arrays.
 17. isEmpty : we'll compare the length of emptySlots and maxSlots arrays.
 18. findNearestParkingSlot : we'll identify the minimum number of slots available from the
