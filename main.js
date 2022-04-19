@@ -98,7 +98,7 @@ prompt.on("cmd", (data) => {
   } else if (command.startsWith("check_slot_number_for")) {
     const [_, number] = command.split(" ");
     parkingLot.getSlotByCarNumber(number);
-  } else console.log("Invalid command!");
+  } else console.log("Invalid command!".red.bold);
 
   prompt.emit(":new", "cmd", "Enter your command :");
 });
