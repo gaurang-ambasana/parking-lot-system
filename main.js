@@ -21,6 +21,7 @@ prompt.on(":end", () => process.stdin.pause());
 prompt.emit(":new", "start", "Enter size of parking lot : ".green.bold);
 
 prompt.on("start", (data) => {
+  if (isNaN(parseInt(data))) throw new Error("Enter valid number!");
   console.log("Creating Parking Lot with " + parseInt(data) + " slots");
   parkingLot = new ParkingLot(parseInt(data));
   parkingLot.getAllEmptySlots();
