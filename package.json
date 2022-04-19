@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/gaurang-ambasana/parking-lot-system/issues"
   },
-  "homepage": "https://github.com/gaurang-ambasana/parking-lot-system#readme"
+  "homepage": "https://github.com/gaurang-ambasana/parking-lot-system#readme",
+  "dependencies": {
+    "colors": "^1.4.0"
+  }
 }
