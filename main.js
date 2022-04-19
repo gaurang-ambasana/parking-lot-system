@@ -16,10 +16,7 @@ prompt.on(":new", (name, question) => {
   process.stdout.write("-> ");
 });
 
-prompt.on(":end", () => {
-  current = ":end";
-  process.stdin.pause();
-});
+prompt.on(":end", () => process.stdin.pause());
 
 prompt.emit(":new", "start", "Enter size of parking lot : ".green.bold);
 
@@ -31,7 +28,6 @@ prompt.on("start", (data) => {
 });
 
 prompt.on("cmd", (data) => {
-  current = "cmd";
   const command = data.toLowerCase();
 
   if (command === "help") {
