@@ -6,6 +6,7 @@ class ParkingLot {
   #parkingSlots;
   #occupiedSlots;
   #emptySlots;
+  #nearestSlotAvailable; //* to be implemented
 
   constructor(slots) {
     if (slots <= 0) throw new Error(`Not possible :(`);
