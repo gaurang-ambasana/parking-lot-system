@@ -6,9 +6,9 @@ let parkingLot = null;
 const color = require("colors");
 process.stdin.resume();
 
-process.stdin.on("data", (data) => {
-  prompt.emit(current, data.toString().trim());
-});
+process.stdin.on("data", (data) =>
+  prompt.emit(current, data.toString().trim())
+);
 
 prompt.on(":new", (name, question) => {
   current = name;
